@@ -24,6 +24,16 @@ function starStringForRating(rating) {
     return '\u2605'.repeat(full) + '\u2606'.repeat(5 - full);
 }
 
+function setHeroUpdateDate() {
+    const el = document.querySelector('.date-badge__value');
+    if (!el) return;
+    el.textContent = new Date().toLocaleDateString('it-IT', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    });
+}
+
 function renderCasinoBonuses() {
     const grid = document.getElementById('casinoGrid');
     const raw = window.__CASINO_BONUSES__;
@@ -130,6 +140,7 @@ function renderCasinoBonuses() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    setHeroUpdateDate();
     renderCasinoBonuses();
 
     const toggle = document.getElementById('mobileToggle');
