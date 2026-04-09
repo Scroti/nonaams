@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /private/
+
+Sitemap: https://sitinonaamsonlineitalia.in.net/sitemap.xml
+
+# Casino iGaming SEO - Italy Geo Target
+# This site targets Italian-speaking users interested in online casino reviews
