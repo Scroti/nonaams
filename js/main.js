@@ -18,6 +18,29 @@ function resolveGoogleDriveImageUrl(url) {
     return `https://drive.google.com/thumbnail?id=${encodeURIComponent(fileId)}&sz=w800`;
 }
 
+/** Initials for logo placeholder when `image` is empty */
+function brandMediaInitials(name) {
+    const s = (name || '').replace(/\s+/g, ' ').trim();
+    if (!s) return '?';
+    const parts = s.split(' ').filter(Boolean);
+    if (parts.length >= 2) {
+        const a = parts[0][0] || '';
+        const b = parts[1][0] || '';
+        return (a + b).toUpperCase();
+    }
+    const word = parts[0];
+    const alnum = word.replace(/[^a-zA-Z\d]/g, '');
+    if (alnum.length >= 2) return alnum.slice(0, 2).toUpperCase();
+    return word.slice(0, Math.min(2, word.length)).toUpperCase();
+}
+
+function brandPlaceholderHue(name) {
+    let h = 0;
+    const s = name || '';
+    for (let i = 0; i < s.length; i++) h = (Math.imul(31, h) + s.charCodeAt(i)) | 0;
+    return 160 + Math.abs(h % 120);
+}
+
 function starStringForRating(rating) {
     const r = Math.max(0, Math.min(5, Number(rating) || 0));
     const full = Math.round(r);
@@ -50,6 +73,9 @@ function renderCasinoBonuses() {
         const ratingLabel = Number.isFinite(rating) ? rating.toFixed(1) : '5.0';
         const link = (item.link || '#').trim();
         const imageUrl = resolveGoogleDriveImageUrl((item.image || '').trim());
+        const initials = brandMediaInitials(name);
+        const placeholderHue = brandPlaceholderHue(name);
+        const hasRasterImage = !!imageUrl;
 
         const article = document.createElement('article');
         article.className = 'casino-card';
@@ -57,11 +83,11 @@ function renderCasinoBonuses() {
         article.setAttribute('itemtype', 'https://schema.org/Product');
         if (index === 0) article.id = 'firstBonusCard';
 
-        const mediaHtml = imageUrl
-            ? `<div class="card-media">
-                <img class="card-thumb" src="" alt="" width="112" height="72" loading="lazy" decoding="async" itemprop="image" />
-               </div>`
-            : '';
+        const mediaInner = hasRasterImage
+            ? `<img class="card-thumb" src="" alt="" width="112" height="72" loading="lazy" decoding="async" itemprop="image" />`
+            : `<div class="card-thumb card-thumb--placeholder" style="--ph: ${placeholderHue}"><span class="card-thumb--placeholder-text"></span></div>`;
+
+        const mediaHtml = `<div class="card-media">${mediaInner}</div>`;
 
         article.innerHTML = `
             <div class="card-rank card-rank--desktop">#${rank}</div>
@@ -87,12 +113,17 @@ function renderCasinoBonuses() {
             </div>
         `;
 
-        if (imageUrl) {
+        if (hasRasterImage) {
             const img = article.querySelector('.card-thumb');
             if (img) {
                 img.src = imageUrl;
                 img.alt = name ? `${name} — bonus` : 'Bonus casino';
             }
+        } else {
+            const ph = article.querySelector('.card-thumb--placeholder');
+            const sp = ph && ph.querySelector('.card-thumb--placeholder-text');
+            if (sp) sp.textContent = initials;
+            if (ph) ph.setAttribute('aria-label', name ? `${name} — logo` : 'Casino');
         }
 
         article.querySelector('.card-heading-main h3').textContent = name;

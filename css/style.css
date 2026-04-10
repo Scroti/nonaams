@@ -295,6 +295,23 @@ img {
     border-radius: inherit;
 }
 
+.card-thumb--placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    object-fit: unset;
+    background: linear-gradient(145deg, hsl(var(--ph, 215) 42% 30%), hsl(var(--ph, 215) 48% 17%));
+    color: hsl(var(--ph, 215) 95% 96%);
+}
+
+.card-thumb--placeholder-text {
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    user-select: none;
+}
+
 .card-body {
     flex: 1;
     min-width: 0;
@@ -1313,6 +1330,11 @@ img {
 
     .casino-card:has(.card-media) .card-bonus {
         text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85), 0 2px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    .casino-card:has(.card-media) .card-thumb--placeholder .card-thumb--placeholder-text {
+        font-size: clamp(2rem, 14vw, 3.75rem);
+        text-shadow: 0 2px 16px rgba(0, 0, 0, 0.45);
     }
 
     .card-action {
