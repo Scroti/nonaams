@@ -3,7 +3,7 @@ Allow: /
 Disallow: /admin/
 Disallow: /private/
 
-Sitemap: https://miglioricasino-nonaams.it.com/sitemap.xml
+Sitemap: https://miglioricasinononaamssicuri.it.com/sitemap.xml
 
 # Casino iGaming SEO - Italy Geo Target
 # This site targets Italian-speaking users interested in online casino reviews

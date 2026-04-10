@@ -7,7 +7,7 @@
     }
 
     /**
-     * First DNS label of the host (e.g. miglioricasino-nonaams from miglioricasino-nonaams.it.com).
+     * First DNS label of the host (e.g. miglioricasinononaamssicuri from miglioricasinononaamssicuri.it.com).
      * Skips "www." when present.
      */
     function getBrandSlugFromHostname(hostname) {
@@ -53,13 +53,13 @@
             '';
 
         if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '') {
-            const fallback = document.documentElement.getAttribute('data-default-brand-slug') || 'miglioricasino-nonaams';
+            const fallback = document.documentElement.getAttribute('data-default-brand-slug') || 'miglioricasinononaamssicuri';
             return brandFromSlug(fallback);
         }
 
         const slug = getBrandSlugFromHostname(hostname);
         if (!slug) {
-            const fallback = document.documentElement.getAttribute('data-default-brand-slug') || 'miglioricasino-nonaams';
+            const fallback = document.documentElement.getAttribute('data-default-brand-slug') || 'miglioricasinononaamssicuri';
             return brandFromSlug(fallback);
         }
 
